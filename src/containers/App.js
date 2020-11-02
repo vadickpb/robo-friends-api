@@ -19,20 +19,18 @@ class App extends React.Component{
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(users => this.setState({robots : users}))
-        
     }
 
     onSearchChange = (event) => {
         this.setState({ searchField: event.target.value })   
     }
     render(){
-        const filterRobots = this.state.robots.filter(robots => robots.name.toLowerCase().includes(this.state.searchField.toLowerCase()));
+        const {robots, searchField} = this.state;
+        const filterRobots = robots.filter(robot => robot.name.toLowerCase().includes(searchField.toLowerCase()));
 
-        if (this.state.robots.length === 0) {
-            return <h1 className="tc">Loading</h1>
-        } else {
-            
-            return (
+         return !robots.length ?
+             <h1 className="tc">Loading</h1> :
+            (
                 <div className="tc">
                     <h1 className = "f2" >RoboFriends App</h1>
                     <SearchBox searchChange = {this.onSearchChange}/>
@@ -41,7 +39,6 @@ class App extends React.Component{
                     </Scroll>
                 </div>
             )
-        }
     };
 }
 
